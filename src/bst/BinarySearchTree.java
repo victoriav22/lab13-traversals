@@ -137,15 +137,30 @@ public class BinarySearchTree<T extends Comparable<T>> {
 	//For a bst this will print the values in sorted order from smallest to largest
 	public void inOrder() {
 		inOrderRecurse(root); 
+		System.out.println("InOrder test commit");
 	}
 	
 	public void inOrderRecurse(BSTNode<T> node) {
-		
+		if (node == null) {
+			return;
+		}
+		inOrderRecurse(node.leftChild);
+		System.out.println(node.data);
+		inOrderRecurse(node.rightChild);
 	}
 	//Traverse the tree in an inorder fashion but using a stack
 	public void inOrderStack() {
 		Stack<BSTNode<T>> in = new Stack<BSTNode<T>>();
-		
+		BSTNode<T> curr = root;
+		while (curr != null) {
+			in.push(curr);
+			curr = curr.leftChild;
+		}
+		if (curr == null && !in.isEmpty()) {
+			BSTNode<T> popped = in.pop();
+			System.out.println(popped.data + " ");
+			curr = popped.rightChild;
+		}
 		
 	}
 	
@@ -156,7 +171,12 @@ public class BinarySearchTree<T extends Comparable<T>> {
 	}
 	
 	public void postOrderRecurse(BSTNode<T> node) {
-		
+		if (node == null) {
+			return;
+		}
+		postOrderRecurse(node.leftChild);
+		postOrderRecurse(node.rightChild);
+		System.out.println(node.data + " ");
 	}
 	
 	//Traverse the tree in an postorder fashion uses Stacks. 
@@ -170,6 +190,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
 			postHelper.push(root);
 			while(!postHelper.isEmpty()) {
 				//how should post and postHelper be updated?
+				post.push(postHelper.pop());
 			}
 			
 			while(!post.isEmpty()) {
